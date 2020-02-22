@@ -8,6 +8,6 @@ data:
     region = us-east-1
   syncs3.sh: |
     export AWS_CONFIG_FILE="/root/.aws/config" #change it as per user
-    export AWS_ACCESS_KEY_ID=AKIAUY7JLALHJPXC4O7G #please provide access id 
-    export AWS_SECRET_ACCESS_KEY=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 #please provide secret key
-    aws s3 sync /var/log/nginx s3://deekshithsn
+    export AWS_ACCESS_KEY_ID=***** #please provide access id 
+    export AWS_SECRET_ACCESS_KEY=***** #please provide secret key
+    aws s3 sync /var/log/nginx s3://your_bucket_name
