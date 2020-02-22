@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  selector:
+    matchLabels:
+      app: myapp-dep
+  template:
+    metadata:
+      labels:
+        app: myapp-dep
+    spec:
+      initContainers:
+      - name: ssl-cert-creation
+        image: deekshithsn/openssl
+        command: ["/bin/sh"]
+        args: ["-c","mkdir -p /etc/nginx/ssl;openssl req -newkey rsa:2048 -nodes -keyout /etc/nginx/ssl/nginx.key -x509 -days 365 -out /etc/nginx/ssl/nginx.crt -subj '/C=GB/ST=London/L=London/O=Global Security/OU=IT Department/CN=example.com'"]
+        volumeMounts: 
+          - name: ssl-cert
+            mountPath: /etc/nginx/ssl
+      containers:
+      - name: myapp-dep
+        image: deekshithsn/nginxhttps
+        command: ["/home/auto-reload-nginx.sh"]
+        ports:
+        - containerPort: 443
+        - containerPort: 80
+        livenessProbe:
+            httpGet:
+              path: /index.html
+              port: 80
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+        volumeMounts:
+          - mountPath: /etc/nginx/ssl
+            name: ssl-cert
+          - mountPath: /etc/nginx/conf.d
+            name: nginx-files
+          - mountPath: /var/log/nginx
+            name: logs
+
+      - name: sidecar-logs
+        image: xueshanf/awscli
+        command: ["/bin/sh"]
+        args: ["-c","cp /root/scripts/syncs3.sh /root/syncs3.sh;chmod 777 /root/syncs3.sh;while true; do sh /root/syncs3.sh; sleep 10;done"]
+        volumeMounts:
+          - name: logs
+            mountPath: /var/log/nginx
+          - name: aws-credentials
+            mountPath: /root/.aws/config
+            subPath: config
+          - name: aws-credentials
+            mountPath: /root/scripts/syncs3.sh
+            subPath: syncs3.sh
+      volumes:
+        - name: ssl-cert
+          emptyDir: {}
+        - name: logs
+          emptyDir: {}
+        - name: aws-credentials
+          configMap:
+            name: "aws-config"
+        - name: nginx-files
+          configMap:
+            name: "nginx-config"
+
+  replicas: 2
