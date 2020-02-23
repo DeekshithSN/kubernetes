@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: probe-readiness-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: probe-demo
+  template:
+    metadata:
+      labels:
+        run: probe-demo
+    spec:
+      containers:
+      - image: deekshithsn/probe-demo
+        name: probe-demo
+        env:
+        - name: START_DELAY
+          value: "60"        
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+          timeoutSeconds: 1
