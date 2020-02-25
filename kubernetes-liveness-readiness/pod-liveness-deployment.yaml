@@ -17,7 +17,7 @@ spec:
         name: probe-demo
         env:
         - name: START_DELAY
-          value: "60"
+          value: "120"
         ports:
         - containerPort: 8080
         livenessProbe:
