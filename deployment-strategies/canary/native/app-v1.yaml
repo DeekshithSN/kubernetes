@@ -30,13 +30,10 @@ spec:
       labels:
         app: my-app
         version: v1.0.0
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "9101"
     spec:
       containers:
       - name: my-app
-        image: containersol/k8s-deployment-strategies
+        image: deekshithsn/k8s-deployment-strategies
         ports:
         - name: http
           containerPort: 8080
