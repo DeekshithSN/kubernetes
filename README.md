@@ -14,3 +14,13 @@
  
  - You can check the created deployment using the following command
  ``` kubectl get deployments --namespace=monitoring ```
+
+
+## Connecting To Prometheus Dashboard 
+
+- First, get the Prometheus pod name
+``` kubectl get pods --namespace=monitoring ```
+
+- Execute the following command with your pod name to access Prometheus from localhost or host-ip port 8080
+``` kubectl port-forward prometheus-monitoring-3331088907-hm5n1 8080:9090 -n monitoring ```
+
