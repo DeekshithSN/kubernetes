@@ -26,3 +26,12 @@
 
 - Exposing Prometheus as a Service ( if you dont want to use port-forward )
 ``` kubectl create -f prometheus-service.yaml --namespace=monitoring ```
+
+
+## General Commands 
+
+- How to set any working namespace
+```kubectl config set-context --current --namespace=monitoring```
+
+- How to view the current namespace 
+```kubectl config view | grep namespace```
