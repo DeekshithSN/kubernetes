@@ -47,28 +47,30 @@ metadata:
     addonmanager.kubernetes.io/mode: Reconcile
     kubernetes.io/name: "Kibana"
 spec:
+  type: NodePort
   ports:
   - port: 5601
     protocol: TCP
     targetPort: ui
+    nodePort: 31336
   selector:
     k8s-app: kibana-logging
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: logs-ingress
-  namespace: kube-system
-  labels:
-    app: logs
-  annotations:
-    kubernetes.io/ingress.class: traefik
-spec:
-  rules:
-  - host: logs.example.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: kibana-logging
-          servicePort: 5601
+# ---
+# apiVersion: extensions/v1beta1
+# kind: Ingress
+# metadata:
+#   name: logs-ingress
+#   namespace: kube-system
+#   labels:
+#     app: logs
+#   annotations:
+#     kubernetes.io/ingress.class: traefik
+# spec:
+#   rules:
+#   - host: logs.example.com
+#     http:
+#       paths:
+#       - path: /
+#         backend:
+#           serviceName: kibana-logging
+#           servicePort: 5601
