@@ -1,0 +1,23 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: elasticsearch-curator
+  namespace: kube-system
+  labels:
+    k8s-app: elasticsearch-logging
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          name: elasticsearch-curator
+          labels:
+            k8s-app: elasticsearch-logging
+        spec:
+          restartPolicy: "Never"
+          containers:
+          - name: ingestor
+            image: python:3.6-alpine
+            args: ["sh", "-c", "pip install elasticsearch-curator && curator_cli --host elasticsearch-logging delete_indices --filter_list '[{\"filtertype\":\"age\",\"source\":\"creation_date\",\"direction\":\"older\",\"unit\":\"days\",\"unit_count\":7},{\"filtertype\":\"pattern\",\"kind\":\"prefix\",\"value\":\"logstash\"}]' || true"]
+      backoffLimit: 1
