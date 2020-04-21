@@ -122,9 +122,11 @@ metadata:
     addonmanager.kubernetes.io/mode: Reconcile
     kubernetes.io/name: "Elasticsearch"
 spec:
+  type: NodePort
   ports:
   - port: 9200
     protocol: TCP
     targetPort: db
+    nodePort: 31335
   selector:
     k8s-app: elasticsearch-logging
