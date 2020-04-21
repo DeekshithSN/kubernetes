@@ -39,6 +39,9 @@ metadata:
   namespace: kube-system
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: logstash
   template:
     metadata:
       labels:
