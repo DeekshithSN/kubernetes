@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: my-python
+spec:
+  containers:
+    - name: my-python
+      image: deekshithsn/python-web-app
+  nodeSelector:
+    size: medium
+ 
