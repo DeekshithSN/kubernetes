@@ -8,4 +8,9 @@ spec:
       image: deekshithsn/python-web-app
   nodeSelector:
     size: medium
+
+
+
+
+# kubectl label nodes node_name size=medium
  
