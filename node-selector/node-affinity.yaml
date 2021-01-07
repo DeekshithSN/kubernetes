@@ -16,6 +16,7 @@ spec:
         podAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
 #          preferredDuringSchedulingIgnoredDuringExecution:
+#          preferredDuringSchedulingRequiredDuringExecution:
           - labelSelector:
               matchExpressions:
               - key: app
