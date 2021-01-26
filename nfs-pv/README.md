@@ -27,7 +27,7 @@ How to Install and Configure an NFS Server on Ubuntu 18.04 : https://www.tecmint
 - To verify the mount 
     mount -t nfs ipaddress:/mnt/nfs_share/ /mnt
     mount | grep nfs_share
-    unmount
+    umount /mnt
 
 ```
 
