@@ -19,11 +19,15 @@ How to Install and Configure an NFS Server on Ubuntu 18.04 : https://www.tecmint
      sudo exportfs -v or showmount -e 
 - sudo systemctl restart nfs-kernel-server
 ```
-## NFS Client :
+## NFS Client ( in worker nodes ) :
 
 ```
 - sudo apt install nfs-common
 - showmount -e nfs-server-ip
+- To verify the mount 
+    mount -t nfs ipaddress:/mnt/nfs_share/ /mnt
+    mount | grep nfs_share
+    unmount
 
 ```
 
