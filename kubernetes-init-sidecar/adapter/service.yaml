@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-nodeport-service
+  labels:
+    app: myapp-service-httpd
+    tier: frontend
+spec:
+  type: NodePort
+  ports:
+    - targetPort: 80
+      port: 80
+      nodePort: 30008
+      name: nginx
+    - targetPort: 9113
+      port: 9113
+      nodePort: 30009
+      name: adaptor
+  selector:
+    app: webserver
+
