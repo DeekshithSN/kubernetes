@@ -5,3 +5,4 @@
   - curl localhost/nginx_status
   - curl localhost:9113/metrics
   
+for more details refer https://www.magalix.com/blog/the-adapter-pattern
