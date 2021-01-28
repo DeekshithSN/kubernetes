@@ -1,0 +1,29 @@
+#kubectl taint nodes node1 dedicated=devs:NoSchedule
+#kubectl taint nodes node-2 dedicated=tests:NoSchedule
+
+#kubectl label nodes node1 dedicated=devs
+#kubectl label nodes node-2 dedicated=devs
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-test
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: dedicated
+                operator: In
+                values:
+                  - devs
+  tolerations:
+    - key: "dedicated"
+      operator: "Equal"
+      value: "devs"
+      effect: "NoSchedule"
+  containers:
+    - name: just-container
+      image: supergiantkir/animals:bear
