@@ -1,4 +1,4 @@
-  ## kubectl exec --stdin --tty mysql-6f98c658d6-jhfk4 -- sh
+  ## kubectl exec --stdin --tty pod_name -- sh
   - ls /etc/mysql/conf.d
   
 Kubernetes took the map name of mysql_binlog_format.cnf present it as a filewith the contents that were stored in the data source of the configMap.
