@@ -1,3 +1,5 @@
+https://github.com/ahmetb/kubernetes-network-policy-recipes
+
 ![You can get stuff like this](img/1.gif)
 _You can get stuff like this with Network Policies..._
 
