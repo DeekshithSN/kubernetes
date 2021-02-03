@@ -57,14 +57,3 @@ better.
 - 🔜 ALLOW traffic only to Pods in a namespace
 - [LIMIT egress traffic to the cluster (DENY external egress traffic)](14-deny-external-egress-traffic.md)
 
------
-
-##### Author
-
-Created by Ahmet Alp Balkan ([@ahmetb](https://twitter.com/ahmetb)).
-
-Copyright 2017, Google Inc. Distributed under Apache License Version 2.0 ,see [LICENSE](LICENSE) for details.
-
-Disclaimer: This is not an official Google product.
-
-![Stargazers over time](https://starcharts.herokuapp.com/ahmetb/kubernetes-networkpolicy-tutorial.svg)
