@@ -123,3 +123,6 @@ Validate that the Pod cannot establish connections to hello-web-2:8080:
 ```
 wget -qO- --timeout=2 http://hello-web-2:8080
 ```
+-------------------------------------
+
+
