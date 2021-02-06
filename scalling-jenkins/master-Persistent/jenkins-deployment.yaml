@@ -1,0 +1,59 @@
+---
+apiVersion: "v1"
+kind: "List"
+items:
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: "jenkins-master-deployment"
+    labels: 
+      app: jenkins-master
+      version: "latest"
+      group: "jenkins"
+  spec:
+    replicas: 1
+    selector:
+        matchLabels:
+          app: "jenkins-master"
+          version: "latest"
+          group: "jenkins"
+    template:
+      metadata:
+        labels:
+          app: jenkins-master
+          version: "latest"
+          group: "jenkins"
+      spec:
+        containers:
+          - name: "jenkins-master"
+            image: "deekshithsn/jenkinskubernetes:4.0"
+            imagePullPolicy: "IfNotPresent"
+            env:
+              - name: JAVA_OPTS
+                value: -Djenkins.install.runSetupWizard=false
+            ports:
+              - name: http-port
+                containerPort: 8080
+              - name: jnlp-port
+                containerPort: 50000
+- apiVersion: "v1"
+  kind: "Service"
+  metadata:
+    labels:
+      app: "jenkins-master"
+      version: "latest"
+      group: "jenkins"
+    name: "jenkins-master-service"
+  spec:
+    ports:
+    - name: "http"
+      port: 80
+      targetPort: 8080
+    - name: "jnlp"
+      port: 50000
+      targetPort: 50000
+    selector:
+      app: "jenkins-master"
+      version: "latest"
+      group: "jenkins"
+    type: "NodePort"      
