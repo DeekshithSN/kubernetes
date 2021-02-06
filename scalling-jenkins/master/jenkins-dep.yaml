@@ -1,0 +1,27 @@
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: "jenkins-master-deployment"
+    labels: 
+      app: jenkins-master
+      version: "latest"
+      group: "jenkins"
+    namespace: "jenkins"
+  spec:
+    replicas: 1
+    selector:
+        matchLabels:
+          app: "jenkins-master"
+          version: "latest"
+          group: "jenkins"
+    template:
+      metadata:
+        labels:
+          app: jenkins-master
+          version: "latest"
+          group: "jenkins"
+      spec:
+        containers:
+          - name: "jenkins-master"
+            image: "keaz/jenkins-master:alpine"
+            imagePullPolicy: "IfNotPresent"
