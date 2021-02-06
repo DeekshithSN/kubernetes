@@ -35,7 +35,16 @@ items:
               - name: http-port
                 containerPort: 8080
               - name: jnlp-port
-                containerPort: 50000
+                containerPort: 50000   
+            volumeMounts:
+              - name: jenkins-home
+                mountPath: "/var/jenkins_home"
+        volumes:
+          - name: jenkins-home
+            persistentVolumeClaim:
+              claimName: "jenkins-volume-claim"
+              readOnly: false
+
 - apiVersion: "v1"
   kind: "Service"
   metadata:
