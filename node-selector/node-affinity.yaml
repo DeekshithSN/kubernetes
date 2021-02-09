@@ -13,7 +13,7 @@ spec:
         app: nginx
     spec:
       affinity:
-        podAffinity:
+        nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
 #          preferredDuringSchedulingIgnoredDuringExecution:
 #          preferredDuringSchedulingRequiredDuringExecution:
