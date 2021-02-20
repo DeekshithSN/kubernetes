@@ -8,8 +8,8 @@ metadata:
 spec:
   storageClassName: slow
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
-      storage: 5Gi
+      storage: 10Gi
   #volumeName: pv-vol1

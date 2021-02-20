@@ -4,7 +4,7 @@ metadata:
   name: gcp-pv
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   capacity:
     storage: 10Gi
   storageClassName: slow
