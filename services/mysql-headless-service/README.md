@@ -15,14 +15,8 @@ on general patterns for running stateful applications in Kubernetes.
  ## prerequisites
 
 
-* {{< include "task-tutorial-prereqs.md" >}} {{< version-check >}}
-* {{< include "default-storage-class-prereqs.md" >}}
-* This tutorial assumes you are familiar with
-  [PersistentVolumes](/docs/concepts/storage/persistent-volumes/)
-  and [StatefulSets](/docs/concepts/workloads/controllers/statefulset/),
-  as well as other core concepts like [Pods](/docs/concepts/workloads/pods/),
-  [Services](/docs/concepts/services-networking/service/), and
-  [ConfigMaps](/docs/tasks/configure-pod-container/configure-pod-configmap/).
+* you need to have kubernetes cluster
+* you need to know concepts like Dynamic provision or static provision Persistent volume.
 * Some familiarity with MySQL helps, but this tutorial aims to present
   general patterns that should be useful for other systems.
 
@@ -69,7 +63,6 @@ based on information provided by the StatefulSet controller.
 
 Create the Services from the following YAML configuration file:
 
-{{< codenew file="application/mysql/mysql-services.yaml" >}}
 
 ```shell
 kubectl apply -f https://k8s.io/examples/application/mysql/mysql-services.yaml
@@ -95,7 +88,6 @@ writes.
 
 Finally, create the StatefulSet from the following YAML configuration file:
 
-{{< codenew file="application/mysql/mysql-statefulset.yaml" >}}
 
 ```shell
 kubectl apply -f https://k8s.io/examples/application/mysql/mysql-statefulset.yaml
@@ -140,7 +132,7 @@ properties to perform orderly startup of MySQL replication.
 ### Generating configuration
 
 Before starting any of the containers in the Pod spec, the Pod first runs any
-[Init Containers](/docs/concepts/workloads/pods/init-containers/)
+Init Containers
 in the order defined.
 
 The first Init Container, named `init-mysql`, generates special MySQL config
@@ -160,7 +152,7 @@ Because the example topology consists of a single primary MySQL server and any n
 replicas, the script assigns ordinal `0` to be the primary server, and everyone
 else to be replicas.
 Combined with the StatefulSet controller's
-[deployment order guarantee](/docs/concepts/workloads/controllers/statefulset/#deployment-and-scaling-guarantees),
+deployment order guarantee,
 this ensures the primary MySQL server is Ready before creating replicas, so they can begin
 replicating.
 
@@ -190,7 +182,7 @@ Ready before starting Pod `N+1`.
 After the Init Containers complete successfully, the regular containers run.
 The MySQL Pods consist of a `mysql` container that runs the actual `mysqld`
 server, and an `xtrabackup` container that acts as a
-[sidecar](https://kubernetes.io/blog/2015/06/the-distributed-system-toolkit-patterns).
+sidecar.
 
 The `xtrabackup` sidecar looks at the cloned data files and determines if
 it's necessary to initialize MySQL replication on the replica.
@@ -470,7 +462,7 @@ kubectl delete pvc data-mysql-4
 
 
 
-## {{% heading "cleanup" %}}
+## cleanup
 
 
 1. Cancel the `SELECT @@server_id` loop by pressing **Ctrl+C** in its terminal,
@@ -512,16 +504,6 @@ kubectl delete pvc data-mysql-4
    Some dynamic provisioners (such as those for EBS and PD) also release the
    underlying resources upon deleting the PersistentVolumes.
 
-
-
-## {{% heading "whatsnext" %}}
-
-* Learn more about [scaling a StatefulSet](/docs/tasks/run-application/scale-stateful-set/).
-* Learn more about [debugging a StatefulSet](/docs/tasks/debug-application-cluster/debug-stateful-set/).
-* Learn more about [deleting a StatefulSet](/docs/tasks/run-application/delete-stateful-set/).
-* Learn more about [force deleting StatefulSet Pods](/docs/tasks/run-application/force-delete-stateful-set-pod/).
-* Look in the [Helm Charts repository](https://github.com/kubernetes/charts)
-  for other stateful application examples.
 
 
 
