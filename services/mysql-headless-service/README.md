@@ -1,21 +1,18 @@
 
-
-<!-- overview -->
-
 This page shows how to run a replicated stateful application using a
-[StatefulSet](/docs/concepts/workloads/controllers/statefulset/) controller.
+StatefulSet controller.
 This application is a replicated MySQL database. The example topology has a
 single primary server and multiple replicas, using asynchronous row-based
 replication.
 
-{{< note >}}
+
 **This is not a production configuration**. MySQL settings remain on insecure defaults to keep the focus
 on general patterns for running stateful applications in Kubernetes.
-{{< /note >}}
 
 
 
-## {{% heading "prerequisites" %}}
+
+ ## prerequisites
 
 
 * {{< include "task-tutorial-prereqs.md" >}} {{< version-check >}}
@@ -31,7 +28,7 @@ on general patterns for running stateful applications in Kubernetes.
 
 
 
-## {{% heading "objectives" %}}
+## objectives
 
 
 * Deploy a replicated MySQL topology with a StatefulSet controller.
