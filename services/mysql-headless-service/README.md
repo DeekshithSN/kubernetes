@@ -45,7 +45,7 @@ Create the ConfigMap from the following YAML configuration file:
 
 
 ```shell
-kubectl apply -f https://k8s.io/examples/application/mysql/mysql-configmap.yaml
+kubectl apply -f mysql-configmap.yaml
 ```
 
 This ConfigMap provides `my.cnf` overrides that let you independently control
@@ -64,7 +64,7 @@ Create the Services from the following YAML configuration file:
 
 
 ```shell
-kubectl apply -f https://k8s.io/examples/application/mysql/mysql-services.yaml
+kubectl apply -f mysql-services.yaml
 ```
 
 The Headless Service provides a home for the DNS entries that the StatefulSet
@@ -89,7 +89,7 @@ Finally, create the StatefulSet from the following YAML configuration file:
 
 
 ```shell
-kubectl apply -f https://k8s.io/examples/application/mysql/mysql-statefulset.yaml
+kubectl apply -f mysql-statefulset.yaml
 ```
 
 You can watch the startup progress by running:
