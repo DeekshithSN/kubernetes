@@ -43,7 +43,6 @@ and a StatefulSet.
 
 Create the ConfigMap from the following YAML configuration file:
 
-{{< codenew file="application/mysql/mysql-configmap.yaml" >}}
 
 ```shell
 kubectl apply -f https://k8s.io/examples/application/mysql/mysql-configmap.yaml
