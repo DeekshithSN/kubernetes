@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gcp-pv
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 10Gi
+  storageClassName: slow
+  persistentVolumeReclaimPolicy: Retain
+  gcePersistentDisk:
+    pdName: gcp-pv
