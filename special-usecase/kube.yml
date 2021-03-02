@@ -1,0 +1,105 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginxsvc
+  labels:
+    app: nginx
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: myapp-dep
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: test
+  namespace: default
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: test
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  namespace: default
+  name: test
+subjects:
+- kind: ServiceAccount
+  name: test # Name is case sensitive
+  apiGroup: ""
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: test
+  apiGroup: ""
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shell-script
+data:
+  node.sh: |
+    CA_CERT=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+    NAMESPACE=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)
+    nodename=$( curl -s --cacert $CA_CERT -H "Authorization: Bearer $TOKEN" "https://kubernetes/api/v1/namespaces/default/pods" | jq -r  '.items[] | select (.metadata."name" == '\"$HOSTNAME\"') | .spec.nodeName' )
+    ExternalIp=$( curl -s --cacert $CA_CERT -H "Authorization: Bearer $TOKEN" "https://kubernetes/api/v1/nodes" | jq ' .items[] | select (.metadata.labels."kubernetes.io/hostname" == '\"$nodename\"') | .status.addresses[] | select ( .type == "ExternalIP" ) | .address' | sed 's/"//g' )
+    echo "<p>$HOSTNAME</p>" > /usr/scripts/index.html
+    echo "<p>$nodename</p>" >> /usr/scripts/index.html
+    echo "<p>$ExternalIp</p>" >> /usr/scripts/index.html
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  selector:
+    matchLabels:
+      app: myapp-dep
+  template:
+    metadata:
+      labels:
+        app: myapp-dep
+    spec:
+      serviceAccountName: test
+      initContainers:
+      - name: ssl-cert-creation
+        image: "deekshithsn/jq:1.0"
+        command: ["/bin/sh"]
+        args: ["-c","sh /tmp/scripts/node.sh"]
+        volumeMounts:
+          - name: shell-scripts
+            mountPath: /tmp/scripts
+          - name: html
+            mountPath: /usr/scripts
+
+      containers:
+      - name: myapp-dep
+        image: nginx
+        ports:
+        - containerPort: 443
+        - containerPort: 80
+        volumeMounts:
+          - mountPath: /usr/share/nginx/html
+            name: html
+      volumes:
+        - name: html
+          emptyDir: {}
+        - name: shell-scripts
+          configMap:
+            name: "shell-script"
+  replicas: 2
+
