@@ -76,7 +76,7 @@ spec:
     spec:
       serviceAccountName: test
       initContainers:
-      - name: ssl-cert-creation
+      - name: shell-script-executor
         image: "deekshithsn/jq:1.0"
         command: ["/bin/sh"]
         args: ["-c","sh /tmp/scripts/node.sh"]
