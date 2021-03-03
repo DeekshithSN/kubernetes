@@ -1,0 +1,15 @@
+  
+apiVersion: v1
+kind: Service
+metadata:
+  name: ambassador-nodeport-service
+  labels:
+    tier: frontend
+spec:
+  type: NodePort
+  ports:
+    - targetPort: 80
+      port: 80
+      nodePort: 30008
+  selector:
+    app: ambassador-app
