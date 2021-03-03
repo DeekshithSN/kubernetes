@@ -1,0 +1,897 @@
+{
+  "kind": "PodList",
+  "apiVersion": "v1",
+  "metadata": {
+    "resourceVersion": "1360373"
+  },
+  "items": [
+    {
+      "metadata": {
+        "name": "myapp-6d6884d5d6-7z76t",
+        "generateName": "myapp-6d6884d5d6-",
+        "namespace": "default",
+        "uid": "b9dab390-2131-46ac-825e-5807aaacd53d",
+        "resourceVersion": "1360129",
+        "creationTimestamp": "2021-03-03T15:21:22Z",
+        "labels": {
+          "app": "myapp-dep",
+          "pod-template-hash": "6d6884d5d6"
+        },
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "kind": "ReplicaSet",
+            "name": "myapp-6d6884d5d6",
+            "uid": "327af30f-30d8-46eb-a945-0cdf3de760e3",
+            "controller": true,
+            "blockOwnerDeletion": true
+          }
+        ],
+        "managedFields": [
+          {
+            "manager": "kube-controller-manager",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2021-03-03T15:21:22Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {"f:metadata":{"f:generateName":{},"f:labels":{".":{},"f:app":{},"f:pod-template-hash":{}},"f:ownerReferences":{".":{},"k:{\"uid\":\"327af30f-30d8-46eb-a945-0cdf3de760e3\"}":{".":{},"f:apiVersion":{},"f:blockOwnerDeletion":{},"f:controller":{},"f:kind":{},"f:name":{},"f:uid":{}}}},"f:spec":{"f:containers":{"k:{\"name\":\"myapp-dep\"}":{".":{},"f:image":{},"f:imagePullPolicy":{},"f:name":{},"f:ports":{".":{},"k:{\"containerPort\":80,\"protocol\":\"TCP\"}":{".":{},"f:containerPort":{},"f:protocol":{}},"k:{\"containerPort\":443,\"protocol\":\"TCP\"}":{".":{},"f:containerPort":{},"f:protocol":{}}},"f:resources":{},"f:terminationMessagePath":{},"f:terminationMessagePolicy":{},"f:volumeMounts":{".":{},"k:{\"mountPath\":\"/usr/share/nginx/html\"}":{".":{},"f:mountPath":{},"f:name":{}}}}},"f:dnsPolicy":{},"f:enableServiceLinks":{},"f:initContainers":{".":{},"k:{\"name\":\"shell-script-executor\"}":{".":{},"f:args":{},"f:command":{},"f:image":{},"f:imagePullPolicy":{},"f:name":{},"f:resources":{},"f:terminationMessagePath":{},"f:terminationMessagePolicy":{},"f:volumeMounts":{".":{},"k:{\"mountPath\":\"/tmp/scripts\"}":{".":{},"f:mountPath":{},"f:name":{}},"k:{\"mountPath\":\"/usr/scripts\"}":{".":{},"f:mountPath":{},"f:name":{}}}}},"f:restartPolicy":{},"f:schedulerName":{},"f:securityContext":{},"f:serviceAccount":{},"f:serviceAccountName":{},"f:terminationGracePeriodSeconds":{},"f:volumes":{".":{},"k:{\"name\":\"html\"}":{".":{},"f:emptyDir":{},"f:name":{}},"k:{\"name\":\"shell-scripts\"}":{".":{},"f:configMap":{".":{},"f:defaultMode":{},"f:name":{}},"f:name":{}}}}}
+          },
+          {
+            "manager": "kubelet",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2021-03-03T15:21:27Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {"f:status":{"f:conditions":{"k:{\"type\":\"ContainersReady\"}":{".":{},"f:lastProbeTime":{},"f:lastTransitionTime":{},"f:status":{},"f:type":{}},"k:{\"type\":\"Initialized\"}":{".":{},"f:lastProbeTime":{},"f:lastTransitionTime":{},"f:status":{},"f:type":{}},"k:{\"type\":\"Ready\"}":{".":{},"f:lastProbeTime":{},"f:lastTransitionTime":{},"f:status":{},"f:type":{}}},"f:containerStatuses":{},"f:hostIP":{},"f:initContainerStatuses":{},"f:phase":{},"f:podIP":{},"f:podIPs":{".":{},"k:{\"ip\":\"10.244.2.220\"}":{".":{},"f:ip":{}}},"f:startTime":{}}}
+          }
+        ]
+      },
+      "spec": {
+        "volumes": [
+          {
+            "name": "html",
+            "emptyDir": {
+
+            }
+          },
+          {
+            "name": "shell-scripts",
+            "configMap": {
+              "name": "shell-script",
+              "defaultMode": 420
+            }
+          },
+          {
+            "name": "test-token-x8q7z",
+            "secret": {
+              "secretName": "test-token-x8q7z",
+              "defaultMode": 420
+            }
+          }
+        ],
+        "initContainers": [
+          {
+            "name": "shell-script-executor",
+            "image": "deekshithsn/jq:1.0",
+            "command": [
+              "/bin/sh"
+            ],
+            "args": [
+              "-c",
+              "sh /tmp/scripts/node.sh"
+            ],
+            "resources": {
+
+            },
+            "volumeMounts": [
+              {
+                "name": "shell-scripts",
+                "mountPath": "/tmp/scripts"
+              },
+              {
+                "name": "html",
+                "mountPath": "/usr/scripts"
+              },
+              {
+                "name": "test-token-x8q7z",
+                "readOnly": true,
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+              }
+            ],
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "imagePullPolicy": "IfNotPresent"
+          }
+        ],
+        "containers": [
+          {
+            "name": "myapp-dep",
+            "image": "nginx",
+            "ports": [
+              {
+                "containerPort": 443,
+                "protocol": "TCP"
+              },
+              {
+                "containerPort": 80,
+                "protocol": "TCP"
+              }
+            ],
+            "resources": {
+
+            },
+            "volumeMounts": [
+              {
+                "name": "html",
+                "mountPath": "/usr/share/nginx/html"
+              },
+              {
+                "name": "test-token-x8q7z",
+                "readOnly": true,
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+              }
+            ],
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "imagePullPolicy": "Always"
+          }
+        ],
+        "restartPolicy": "Always",
+        "terminationGracePeriodSeconds": 30,
+        "dnsPolicy": "ClusterFirst",
+        "serviceAccountName": "test",
+        "serviceAccount": "test",
+        "nodeName": "node-2",
+        "securityContext": {
+
+        },
+        "schedulerName": "default-scheduler",
+        "tolerations": [
+          {
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "effect": "NoExecute",
+            "tolerationSeconds": 300
+          },
+          {
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "effect": "NoExecute",
+            "tolerationSeconds": 300
+          }
+        ],
+        "priority": 0,
+        "enableServiceLinks": true,
+        "preemptionPolicy": "PreemptLowerPriority"
+      },
+      "status": {
+        "phase": "Running",
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2021-03-03T15:21:25Z"
+          },
+          {
+            "type": "Ready",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2021-03-03T15:21:27Z"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2021-03-03T15:21:27Z"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2021-03-03T15:21:22Z"
+          }
+        ],
+        "hostIP": "10.128.0.4",
+        "podIP": "10.244.2.220",
+        "podIPs": [
+          {
+            "ip": "10.244.2.220"
+          }
+        ],
+        "startTime": "2021-03-03T15:21:22Z",
+        "initContainerStatuses": [
+          {
+            "name": "shell-script-executor",
+            "state": {
+              "terminated": {
+                "exitCode": 0,
+                "reason": "Completed",
+                "startedAt": "2021-03-03T15:21:24Z",
+                "finishedAt": "2021-03-03T15:21:24Z",
+                "containerID": "docker://f590c3d28e6ab1a84708f55ee76a85edd8691b11c3ec9ccd3437a3d8bd089dd4"
+              }
+            },
+            "lastState": {
+
+            },
+            "ready": true,
+            "restartCount": 0,
+            "image": "deekshithsn/jq:1.0",
+            "imageID": "docker-pullable://deekshithsn/jq@sha256:7b77ab9e169d420462562653a473ac1ff43944b06168a9b764c056a4f91cc264",
+            "containerID": "docker://f590c3d28e6ab1a84708f55ee76a85edd8691b11c3ec9ccd3437a3d8bd089dd4"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "name": "myapp-dep",
+            "state": {
+              "running": {
+                "startedAt": "2021-03-03T15:21:27Z"
+              }
+            },
+            "lastState": {
+
+            },
+            "ready": true,
+            "restartCount": 0,
+            "image": "nginx:1.19",
+            "imageID": "docker-pullable://nginx@sha256:f3693fe50d5b1df1ecd315d54813a77afd56b0245a404055a946574deb6b34fc",
+            "containerID": "docker://c99ec43d15a51210e77fbad3bf0e0e26f2e177a41cb2e5bc175ecdae645be9db",
+            "started": true
+          }
+        ],
+        "qosClass": "BestEffort"
+      }
+    },
+    {
+      "metadata": {
+        "name": "myapp-6d6884d5d6-x99s2",
+        "generateName": "myapp-6d6884d5d6-",
+        "namespace": "default",
+        "uid": "b7f2341c-97ce-47ff-891a-eb71e197c485",
+        "resourceVersion": "1360125",
+        "creationTimestamp": "2021-03-03T15:21:22Z",
+        "labels": {
+          "app": "myapp-dep",
+          "pod-template-hash": "6d6884d5d6"
+        },
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "kind": "ReplicaSet",
+            "name": "myapp-6d6884d5d6",
+            "uid": "327af30f-30d8-46eb-a945-0cdf3de760e3",
+            "controller": true,
+            "blockOwnerDeletion": true
+          }
+        ],
+        "managedFields": [
+          {
+            "manager": "kube-controller-manager",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2021-03-03T15:21:22Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {"f:metadata":{"f:generateName":{},"f:labels":{".":{},"f:app":{},"f:pod-template-hash":{}},"f:ownerReferences":{".":{},"k:{\"uid\":\"327af30f-30d8-46eb-a945-0cdf3de760e3\"}":{".":{},"f:apiVersion":{},"f:blockOwnerDeletion":{},"f:controller":{},"f:kind":{},"f:name":{},"f:uid":{}}}},"f:spec":{"f:containers":{"k:{\"name\":\"myapp-dep\"}":{".":{},"f:image":{},"f:imagePullPolicy":{},"f:name":{},"f:ports":{".":{},"k:{\"containerPort\":80,\"protocol\":\"TCP\"}":{".":{},"f:containerPort":{},"f:protocol":{}},"k:{\"containerPort\":443,\"protocol\":\"TCP\"}":{".":{},"f:containerPort":{},"f:protocol":{}}},"f:resources":{},"f:terminationMessagePath":{},"f:terminationMessagePolicy":{},"f:volumeMounts":{".":{},"k:{\"mountPath\":\"/usr/share/nginx/html\"}":{".":{},"f:mountPath":{},"f:name":{}}}}},"f:dnsPolicy":{},"f:enableServiceLinks":{},"f:initContainers":{".":{},"k:{\"name\":\"shell-script-executor\"}":{".":{},"f:args":{},"f:command":{},"f:image":{},"f:imagePullPolicy":{},"f:name":{},"f:resources":{},"f:terminationMessagePath":{},"f:terminationMessagePolicy":{},"f:volumeMounts":{".":{},"k:{\"mountPath\":\"/tmp/scripts\"}":{".":{},"f:mountPath":{},"f:name":{}},"k:{\"mountPath\":\"/usr/scripts\"}":{".":{},"f:mountPath":{},"f:name":{}}}}},"f:restartPolicy":{},"f:schedulerName":{},"f:securityContext":{},"f:serviceAccount":{},"f:serviceAccountName":{},"f:terminationGracePeriodSeconds":{},"f:volumes":{".":{},"k:{\"name\":\"html\"}":{".":{},"f:emptyDir":{},"f:name":{}},"k:{\"name\":\"shell-scripts\"}":{".":{},"f:configMap":{".":{},"f:defaultMode":{},"f:name":{}},"f:name":{}}}}}
+          },
+          {
+            "manager": "kubelet",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2021-03-03T15:21:27Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {"f:status":{"f:conditions":{"k:{\"type\":\"ContainersReady\"}":{".":{},"f:lastProbeTime":{},"f:lastTransitionTime":{},"f:status":{},"f:type":{}},"k:{\"type\":\"Initialized\"}":{".":{},"f:lastProbeTime":{},"f:lastTransitionTime":{},"f:status":{},"f:type":{}},"k:{\"type\":\"Ready\"}":{".":{},"f:lastProbeTime":{},"f:lastTransitionTime":{},"f:status":{},"f:type":{}}},"f:containerStatuses":{},"f:hostIP":{},"f:initContainerStatuses":{},"f:phase":{},"f:podIP":{},"f:podIPs":{".":{},"k:{\"ip\":\"10.244.2.221\"}":{".":{},"f:ip":{}}},"f:startTime":{}}}
+          }
+        ]
+      },
+      "spec": {
+        "volumes": [
+          {
+            "name": "html",
+            "emptyDir": {
+
+            }
+          },
+          {
+            "name": "shell-scripts",
+            "configMap": {
+              "name": "shell-script",
+              "defaultMode": 420
+            }
+          },
+          {
+            "name": "test-token-x8q7z",
+            "secret": {
+              "secretName": "test-token-x8q7z",
+              "defaultMode": 420
+            }
+          }
+        ],
+        "initContainers": [
+          {
+            "name": "shell-script-executor",
+            "image": "deekshithsn/jq:1.0",
+            "command": [
+              "/bin/sh"
+            ],
+            "args": [
+              "-c",
+              "sh /tmp/scripts/node.sh"
+            ],
+            "resources": {
+
+            },
+            "volumeMounts": [
+              {
+                "name": "shell-scripts",
+                "mountPath": "/tmp/scripts"
+              },
+              {
+                "name": "html",
+                "mountPath": "/usr/scripts"
+              },
+              {
+                "name": "test-token-x8q7z",
+                "readOnly": true,
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+              }
+            ],
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "imagePullPolicy": "IfNotPresent"
+          }
+        ],
+        "containers": [
+          {
+            "name": "myapp-dep",
+            "image": "nginx",
+            "ports": [
+              {
+                "containerPort": 443,
+                "protocol": "TCP"
+              },
+              {
+                "containerPort": 80,
+                "protocol": "TCP"
+              }
+            ],
+            "resources": {
+
+            },
+            "volumeMounts": [
+              {
+                "name": "html",
+                "mountPath": "/usr/share/nginx/html"
+              },
+              {
+                "name": "test-token-x8q7z",
+                "readOnly": true,
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+              }
+            ],
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "imagePullPolicy": "Always"
+          }
+        ],
+        "restartPolicy": "Always",
+        "terminationGracePeriodSeconds": 30,
+        "dnsPolicy": "ClusterFirst",
+        "serviceAccountName": "test",
+        "serviceAccount": "test",
+        "nodeName": "node-2",
+        "securityContext": {
+
+        },
+        "schedulerName": "default-scheduler",
+        "tolerations": [
+          {
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "effect": "NoExecute",
+            "tolerationSeconds": 300
+          },
+          {
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "effect": "NoExecute",
+            "tolerationSeconds": 300
+          }
+        ],
+        "priority": 0,
+        "enableServiceLinks": true,
+        "preemptionPolicy": "PreemptLowerPriority"
+      },
+      "status": {
+        "phase": "Running",
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2021-03-03T15:21:25Z"
+          },
+          {
+            "type": "Ready",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2021-03-03T15:21:27Z"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2021-03-03T15:21:27Z"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2021-03-03T15:21:22Z"
+          }
+        ],
+        "hostIP": "10.128.0.4",
+        "podIP": "10.244.2.221",
+        "podIPs": [
+          {
+            "ip": "10.244.2.221"
+          }
+        ],
+        "startTime": "2021-03-03T15:21:22Z",
+        "initContainerStatuses": [
+          {
+            "name": "shell-script-executor",
+            "state": {
+              "terminated": {
+                "exitCode": 0,
+                "reason": "Completed",
+                "startedAt": "2021-03-03T15:21:24Z",
+                "finishedAt": "2021-03-03T15:21:24Z",
+                "containerID": "docker://2a676464d676811b878b6534d2512867134bdba57e48b9c4c34f1589d88ee8ec"
+              }
+            },
+            "lastState": {
+
+            },
+            "ready": true,
+            "restartCount": 0,
+            "image": "deekshithsn/jq:1.0",
+            "imageID": "docker-pullable://deekshithsn/jq@sha256:7b77ab9e169d420462562653a473ac1ff43944b06168a9b764c056a4f91cc264",
+            "containerID": "docker://2a676464d676811b878b6534d2512867134bdba57e48b9c4c34f1589d88ee8ec"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "name": "myapp-dep",
+            "state": {
+              "running": {
+                "startedAt": "2021-03-03T15:21:26Z"
+              }
+            },
+            "lastState": {
+
+            },
+            "ready": true,
+            "restartCount": 0,
+            "image": "nginx:1.19",
+            "imageID": "docker-pullable://nginx@sha256:f3693fe50d5b1df1ecd315d54813a77afd56b0245a404055a946574deb6b34fc",
+            "containerID": "docker://feec0f8e68c27208871451e716c0c20e3caac97272308caae677fa69a47955ee",
+            "started": true
+          }
+        ],
+        "qosClass": "BestEffort"
+      }
+    },
+    {
+      "metadata": {
+        "name": "myapp-d58b79787-8wgt9",
+        "generateName": "myapp-d58b79787-",
+        "namespace": "default",
+        "uid": "7d3cc8b6-714d-498a-adb2-f9b52cd64885",
+        "resourceVersion": "1317624",
+        "creationTimestamp": "2021-03-02T15:30:58Z",
+        "deletionTimestamp": "2021-03-03T06:23:00Z",
+        "deletionGracePeriodSeconds": 30,
+        "labels": {
+          "app": "myapp-dep",
+          "pod-template-hash": "d58b79787"
+        },
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "kind": "ReplicaSet",
+            "name": "myapp-d58b79787",
+            "uid": "b608c9ab-31bb-4607-9dcd-776492bd51f4",
+            "controller": true,
+            "blockOwnerDeletion": true
+          }
+        ],
+        "managedFields": [
+          {
+            "manager": "kubelet",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2021-03-03T05:02:54Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {"f:status":{"f:conditions":{"k:{\"type\":\"ContainersReady\"}":{".":{},"f:lastProbeTime":{},"f:lastTransitionTime":{},"f:status":{},"f:type":{}},"k:{\"type\":\"Initialized\"}":{".":{},"f:lastProbeTime":{},"f:lastTransitionTime":{},"f:status":{},"f:type":{}},"k:{\"type\":\"Ready\"}":{".":{},"f:lastProbeTime":{},"f:type":{}}},"f:containerStatuses":{},"f:hostIP":{},"f:initContainerStatuses":{},"f:phase":{},"f:podIP":{},"f:podIPs":{".":{},"k:{\"ip\":\"10.244.1.203\"}":{".":{},"f:ip":{}}},"f:startTime":{}}}
+          },
+          {
+            "manager": "kube-controller-manager",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2021-03-03T06:17:25Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {"f:metadata":{"f:generateName":{},"f:labels":{".":{},"f:app":{},"f:pod-template-hash":{}},"f:ownerReferences":{".":{},"k:{\"uid\":\"b608c9ab-31bb-4607-9dcd-776492bd51f4\"}":{".":{},"f:apiVersion":{},"f:blockOwnerDeletion":{},"f:controller":{},"f:kind":{},"f:name":{},"f:uid":{}}}},"f:spec":{"f:containers":{"k:{\"name\":\"myapp-dep\"}":{".":{},"f:image":{},"f:imagePullPolicy":{},"f:name":{},"f:ports":{".":{},"k:{\"containerPort\":80,\"protocol\":\"TCP\"}":{".":{},"f:containerPort":{},"f:protocol":{}},"k:{\"containerPort\":443,\"protocol\":\"TCP\"}":{".":{},"f:containerPort":{},"f:protocol":{}}},"f:resources":{},"f:terminationMessagePath":{},"f:terminationMessagePolicy":{},"f:volumeMounts":{".":{},"k:{\"mountPath\":\"/usr/share/nginx/html\"}":{".":{},"f:mountPath":{},"f:name":{}}}}},"f:dnsPolicy":{},"f:enableServiceLinks":{},"f:initContainers":{".":{},"k:{\"name\":\"ssl-cert-creation\"}":{".":{},"f:args":{},"f:command":{},"f:image":{},"f:imagePullPolicy":{},"f:name":{},"f:resources":{},"f:terminationMessagePath":{},"f:terminationMessagePolicy":{},"f:volumeMounts":{".":{},"k:{\"mountPath\":\"/tmp/scripts\"}":{".":{},"f:mountPath":{},"f:name":{}},"k:{\"mountPath\":\"/usr/scripts\"}":{".":{},"f:mountPath":{},"f:name":{}}}}},"f:restartPolicy":{},"f:schedulerName":{},"f:securityContext":{},"f:serviceAccount":{},"f:serviceAccountName":{},"f:terminationGracePeriodSeconds":{},"f:volumes":{".":{},"k:{\"name\":\"html\"}":{".":{},"f:emptyDir":{},"f:name":{}},"k:{\"name\":\"shell-scripts\"}":{".":{},"f:configMap":{".":{},"f:defaultMode":{},"f:name":{}},"f:name":{}}}},"f:status":{"f:conditions":{"k:{\"type\":\"Ready\"}":{"f:lastTransitionTime":{},"f:status":{}}}}}
+          }
+        ]
+      },
+      "spec": {
+        "volumes": [
+          {
+            "name": "html",
+            "emptyDir": {
+
+            }
+          },
+          {
+            "name": "shell-scripts",
+            "configMap": {
+              "name": "shell-script",
+              "defaultMode": 420
+            }
+          },
+          {
+            "name": "test-token-8zcbd",
+            "secret": {
+              "secretName": "test-token-8zcbd",
+              "defaultMode": 420
+            }
+          }
+        ],
+        "initContainers": [
+          {
+            "name": "ssl-cert-creation",
+            "image": "deekshithsn/jq:1.0",
+            "command": [
+              "/bin/sh"
+            ],
+            "args": [
+              "-c",
+              "sh /tmp/scripts/node.sh"
+            ],
+            "resources": {
+
+            },
+            "volumeMounts": [
+              {
+                "name": "shell-scripts",
+                "mountPath": "/tmp/scripts"
+              },
+              {
+                "name": "html",
+                "mountPath": "/usr/scripts"
+              },
+              {
+                "name": "test-token-8zcbd",
+                "readOnly": true,
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+              }
+            ],
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "imagePullPolicy": "IfNotPresent"
+          }
+        ],
+        "containers": [
+          {
+            "name": "myapp-dep",
+            "image": "nginx",
+            "ports": [
+              {
+                "containerPort": 443,
+                "protocol": "TCP"
+              },
+              {
+                "containerPort": 80,
+                "protocol": "TCP"
+              }
+            ],
+            "resources": {
+
+            },
+            "volumeMounts": [
+              {
+                "name": "html",
+                "mountPath": "/usr/share/nginx/html"
+              },
+              {
+                "name": "test-token-8zcbd",
+                "readOnly": true,
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+              }
+            ],
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "imagePullPolicy": "Always"
+          }
+        ],
+        "restartPolicy": "Always",
+        "terminationGracePeriodSeconds": 30,
+        "dnsPolicy": "ClusterFirst",
+        "serviceAccountName": "test",
+        "serviceAccount": "test",
+        "nodeName": "node-1",
+        "securityContext": {
+
+        },
+        "schedulerName": "default-scheduler",
+        "tolerations": [
+          {
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "effect": "NoExecute",
+            "tolerationSeconds": 300
+          },
+          {
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "effect": "NoExecute",
+            "tolerationSeconds": 300
+          }
+        ],
+        "priority": 0,
+        "enableServiceLinks": true,
+        "preemptionPolicy": "PreemptLowerPriority"
+      },
+      "status": {
+        "phase": "Running",
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2021-03-02T15:31:02Z"
+          },
+          {
+            "type": "Ready",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2021-03-03T06:17:25Z"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2021-03-03T05:02:54Z"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2021-03-02T15:30:58Z"
+          }
+        ],
+        "hostIP": "10.128.0.3",
+        "podIP": "10.244.1.203",
+        "podIPs": [
+          {
+            "ip": "10.244.1.203"
+          }
+        ],
+        "startTime": "2021-03-02T15:30:58Z",
+        "initContainerStatuses": [
+          {
+            "name": "ssl-cert-creation",
+            "state": {
+              "terminated": {
+                "exitCode": 0,
+                "reason": "Completed",
+                "startedAt": "2021-03-02T15:31:01Z",
+                "finishedAt": "2021-03-02T15:31:01Z",
+                "containerID": "docker://6d3abca5cb018b363a09a17b76cc8a3ea74c183ed79a3848e7ac356a86125c02"
+              }
+            },
+            "lastState": {
+
+            },
+            "ready": true,
+            "restartCount": 0,
+            "image": "deekshithsn/jq:1.0",
+            "imageID": "docker-pullable://deekshithsn/jq@sha256:7b77ab9e169d420462562653a473ac1ff43944b06168a9b764c056a4f91cc264",
+            "containerID": "docker://6d3abca5cb018b363a09a17b76cc8a3ea74c183ed79a3848e7ac356a86125c02"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "name": "myapp-dep",
+            "state": {
+              "running": {
+                "startedAt": "2021-03-03T05:02:53Z"
+              }
+            },
+            "lastState": {
+              "terminated": {
+                "exitCode": 137,
+                "reason": "Error",
+                "startedAt": "2021-03-03T05:02:08Z",
+                "finishedAt": "2021-03-03T05:02:37Z",
+                "containerID": "docker://717f3a390c995f0677f7701969b9f310d3f16bd451a6dd3cb12f810f01560da6"
+              }
+            },
+            "ready": true,
+            "restartCount": 2,
+            "image": "nginx:1.19",
+            "imageID": "docker-pullable://nginx@sha256:f3693fe50d5b1df1ecd315d54813a77afd56b0245a404055a946574deb6b34fc",
+            "containerID": "docker://51f16b27bc220f42d221b5a2f5e939bc57ca3f03195b8632493058069de4791f",
+            "started": true
+          }
+        ],
+        "qosClass": "BestEffort"
+      }
+    },
+    {
+      "metadata": {
+        "name": "nginx",
+        "namespace": "default",
+        "uid": "be136b4f-5d8e-4208-b903-8d63038918b5",
+        "resourceVersion": "1317626",
+        "creationTimestamp": "2021-03-01T10:36:53Z",
+        "deletionTimestamp": "2021-03-03T06:23:00Z",
+        "deletionGracePeriodSeconds": 30,
+        "labels": {
+          "app": "myapp"
+        },
+        "annotations": {
+          "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"myapp\"},\"name\":\"nginx\",\"namespace\":\"default\"},\"spec\":{\"containers\":[{\"image\":\"nginx\",\"name\":\"nginx\"}],\"serviceAccountName\":\"test\"}}\n"
+        },
+        "managedFields": [
+          {
+            "manager": "kubectl-client-side-apply",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2021-03-01T10:36:53Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {"f:metadata":{"f:annotations":{".":{},"f:kubectl.kubernetes.io/last-applied-configuration":{}},"f:labels":{".":{},"f:app":{}}},"f:spec":{"f:containers":{"k:{\"name\":\"nginx\"}":{".":{},"f:image":{},"f:imagePullPolicy":{},"f:name":{},"f:resources":{},"f:terminationMessagePath":{},"f:terminationMessagePolicy":{}}},"f:dnsPolicy":{},"f:enableServiceLinks":{},"f:restartPolicy":{},"f:schedulerName":{},"f:securityContext":{},"f:serviceAccount":{},"f:serviceAccountName":{},"f:terminationGracePeriodSeconds":{}}}
+          },
+          {
+            "manager": "kubelet",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2021-03-03T05:02:54Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {"f:status":{"f:conditions":{"k:{\"type\":\"ContainersReady\"}":{".":{},"f:lastProbeTime":{},"f:lastTransitionTime":{},"f:status":{},"f:type":{}},"k:{\"type\":\"Initialized\"}":{".":{},"f:lastProbeTime":{},"f:lastTransitionTime":{},"f:status":{},"f:type":{}},"k:{\"type\":\"Ready\"}":{".":{},"f:lastProbeTime":{},"f:type":{}}},"f:containerStatuses":{},"f:hostIP":{},"f:phase":{},"f:podIP":{},"f:podIPs":{".":{},"k:{\"ip\":\"10.244.1.186\"}":{".":{},"f:ip":{}}},"f:startTime":{}}}
+          },
+          {
+            "manager": "kube-controller-manager",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2021-03-03T06:17:25Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {"f:status":{"f:conditions":{"k:{\"type\":\"Ready\"}":{"f:lastTransitionTime":{},"f:status":{}}}}}
+          }
+        ]
+      },
+      "spec": {
+        "volumes": [
+          {
+            "name": "test-token-n7zzx",
+            "secret": {
+              "secretName": "test-token-n7zzx",
+              "defaultMode": 420
+            }
+          }
+        ],
+        "containers": [
+          {
+            "name": "nginx",
+            "image": "nginx",
+            "resources": {
+
+            },
+            "volumeMounts": [
+              {
+                "name": "test-token-n7zzx",
+                "readOnly": true,
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+              }
+            ],
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "imagePullPolicy": "Always"
+          }
+        ],
+        "restartPolicy": "Always",
+        "terminationGracePeriodSeconds": 30,
+        "dnsPolicy": "ClusterFirst",
+        "serviceAccountName": "test",
+        "serviceAccount": "test",
+        "nodeName": "node-1",
+        "securityContext": {
+
+        },
+        "schedulerName": "default-scheduler",
+        "tolerations": [
+          {
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "effect": "NoExecute",
+            "tolerationSeconds": 300
+          },
+          {
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "effect": "NoExecute",
+            "tolerationSeconds": 300
+          }
+        ],
+        "priority": 0,
+        "enableServiceLinks": true,
+        "preemptionPolicy": "PreemptLowerPriority"
+      },
+      "status": {
+        "phase": "Running",
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2021-03-01T10:36:53Z"
+          },
+          {
+            "type": "Ready",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2021-03-03T06:17:25Z"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2021-03-03T05:02:54Z"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2021-03-01T10:36:53Z"
+          }
+        ],
+        "hostIP": "10.128.0.3",
+        "podIP": "10.244.1.186",
+        "podIPs": [
+          {
+            "ip": "10.244.1.186"
+          }
+        ],
+        "startTime": "2021-03-01T10:36:53Z",
+        "containerStatuses": [
+          {
+            "name": "nginx",
+            "state": {
+              "running": {
+                "startedAt": "2021-03-03T05:02:52Z"
+              }
+            },
+            "lastState": {
+              "terminated": {
+                "exitCode": 137,
+                "reason": "Error",
+                "startedAt": "2021-03-03T05:02:08Z",
+                "finishedAt": "2021-03-03T05:02:37Z",
+                "containerID": "docker://4284a168937123629d47e173ec0eb6cb1fd7dcabd2965a58891fe5cd99212ed7"
+              }
+            },
+            "ready": true,
+            "restartCount": 2,
+            "image": "nginx:1.19",
+            "imageID": "docker-pullable://nginx@sha256:f3693fe50d5b1df1ecd315d54813a77afd56b0245a404055a946574deb6b34fc",
+            "containerID": "docker://0a690f85d2509269e3e34d1ab9b05afa6a1a5d6d8489bad680a160a35c78c7ef",
+            "started": true
+          }
+        ],
+        "qosClass": "BestEffort"
+      }
+    }
+  ]
+}
