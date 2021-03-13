@@ -6,7 +6,7 @@ metadata:
     name: redis-deploy
     app: demo-voting-app
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       name: redis-pod
@@ -23,3 +23,14 @@ spec:
             image: redis
             ports:
               - containerPort: 6379
+        affinity:
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: name
+                  operator: In
+                  values:
+                  - redis-pod
+              topologyKey: "kubernetes.io/hostname"
+
