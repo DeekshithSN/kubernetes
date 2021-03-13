@@ -1,0 +1,2 @@
+kubectl run postgresql-postgresql-client --rm --tty -i --restart='Never' --namespace votingapp --image bitnami/postgresql --env="PGPASSWORD=postgres" --command -- psql --host db -U postgres
+

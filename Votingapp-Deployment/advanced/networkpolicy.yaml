@@ -1,0 +1,24 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: hello-allow-from-foo
+spec:
+  policyTypes:
+  - Ingress
+  - Egress
+  podSelector:
+    matchLabels:
+      name: redis-pod
+      app: demo-voting-app
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          name: worker-deploy
+          app: demo-voting-app
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          name: result-app-pod
+          app: demo-voting-app

@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: postgres-deploy
   labels:
@@ -11,6 +11,7 @@ spec:
     matchLabels:
       name: postgress-pod
       app: demo-voting-app
+  serviceName: postgress-service
   template:
     metadata:
       name: postgres-pod
@@ -28,3 +29,16 @@ spec:
               value: "postgres"
             - name: POSTGRES_PASSWORD
               value: "postgres"
+          volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: postgredb
+            subPath: postgres
+  volumeClaimTemplates:
+  - metadata:
+      name: postgredb
+    spec:
+      storageClassName: manual
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 10Gi
