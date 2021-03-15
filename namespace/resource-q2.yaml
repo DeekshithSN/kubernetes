@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: object-counts-1
+spec:
+  hard:
+    configmaps: "15"
+    pods: "2"
