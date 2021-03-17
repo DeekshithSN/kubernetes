@@ -1,16 +1,17 @@
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: hello-allow-from-foo
+  name: web-allow-all-ns-monitoring
+  namespace: default
 spec:
-  policyTypes:
-  - Ingress
   podSelector:
     matchLabels:
-      app: hello
+      app: web
   ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          app: foo
-
+    - from:
+      - namespaceSelector:     # chooses all pods in namespaces labelled with team=operations
+          matchLabels:
+            team: operations  
+        podSelector:           # chooses pods with type=monitoring
+          matchLabels:
+            type: monitoring
