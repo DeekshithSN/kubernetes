@@ -8,7 +8,7 @@ spec:
   - Egress
   podSelector:
     matchLabels:
-      name: redis-pod
+      name: postgress-pod
       app: demo-voting-app
   ingress:
   - from:
