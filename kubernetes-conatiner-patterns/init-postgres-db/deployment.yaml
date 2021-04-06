@@ -13,7 +13,7 @@ spec:
         app: webapp
     spec:
       containers:
-      - image: xcoulon/go-url-shortener:0.2.0
+      - image: deekshithsn/go-url-shortener:1.0
         name: go-url-shortener
         ports:
         - containerPort: 8080
