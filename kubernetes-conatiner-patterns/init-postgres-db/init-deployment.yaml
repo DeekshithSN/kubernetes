@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+        app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      initContainers:
+      - name: check-db-ready
+        image: postgres:9.6.5
+        command: ['sh', '-c', 
+          'until pg_isready -h postgres -p 5432; 
+          do echo waiting for database; sleep 2; done;']
+      containers:
+      - image: xcoulon/go-url-shortener:0.2.0
+        name: go-url-shortener
+        ports:
+        - containerPort: 8080
+        env:
+        - name: POSTGRES_HOST
+          value: postgres
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: database-secret-config
+              key: dbname
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: database-secret-config
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: database-secret-config
+              key: password
+
