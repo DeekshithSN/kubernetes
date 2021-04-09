@@ -1,0 +1,1 @@
+kubectl run mysql-client --image=ubuntu -i -t --rm --restart=Never
