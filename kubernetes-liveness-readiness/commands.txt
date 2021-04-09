@@ -1,0 +1,3 @@
+wget -qO- http://node-ip:30001/health
+
+wget -qO- http://node-ip:30001/processing-time/30000
