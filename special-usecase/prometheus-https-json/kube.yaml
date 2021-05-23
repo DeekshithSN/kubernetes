@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: conversion-script
+data:
+  conversion.sh: |
+    curl https://geolocation-db.com/json/344ec440-6bfc-11eb-a0c0-b5dee9e67313 > /usr/share/prom/file
+    jq -r 'keys_unsorted[] as $k | "\($k) \(.[$k])"' /usr/share/prom/file > /usr/share/prom/metrics.txt
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pythonprom
+data:
+  index.py: |
+    from flask import Flask
+
+    app = Flask(__name__)
+    @app.route("/metrics", methods=['GET'])
+    def getfile():
+        with open("/usr/share/prom/metrics.txt", "r+") as f:
+            data = f.read()
+        return data
+
+    if __name__ == '__main__':
+        app.run(host='localhost')
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ui
+  labels:
+    app: ambassador-app
+spec:
+  ports:
+    - name: "http"
+      targetPort: 5000
+      port: 5000
+  selector:
+    app: ambassador-app
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ambassador-pod
+  labels:
+    app: ambassador-app
+spec:
+  volumes:
+  - name: shared
+    emptyDir: {}
+  - name: conscript 
+    configMap:
+      name: "conversion-script"
+  - name: python-volume
+    configMap:
+      name: "pythonprom"
+  containers:
+  - name: jsontotimeseriesconversion
+    image: dwdraju/alpine-curl-jq
+    command: ["/bin/sh"]
+    args: ["-c",  "cp /usr/share/scripts/conversion.sh /usr/share/conversion.sh;while true; do  chmod 777 /usr/share/conversion.sh; /usr/share/conversion.sh ; sleep 10; done"]
+    volumeMounts:
+    - name: shared
+      mountPath: /usr/share/prom
+    - name: conscript
+      mountPath: /usr/share/scripts/conversion.sh
+      subPath: conversion.sh
+
+  - name: exposemetrics
+    image: python:3
+    command: ["/bin/sh"]
+    args: ["-c", "pip install flask flask_cors;while true; do python /usr/share/python/index.py ; sleep 10; done"]
+    ports:
+      - containerPort: 5000
+    volumeMounts:
+    - name: shared
+      mountPath: /usr/share/prom
+    - name: python-volume
+      mountPath: /usr/share/python/index.py
+      subPath: index.py
