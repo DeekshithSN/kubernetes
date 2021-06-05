@@ -28,12 +28,12 @@ data:
     app = Flask(__name__)
     @app.route("/metrics", methods=['GET'])
     def getfile():
-        with open("/usr/share/prom/metrics.txt", "r+") as f:
+        with open("/usr/share/prom/final.txt", "r+") as f:
             data = f.read()
         return data
 
     if __name__ == '__main__':
-        app.run(host='localhost')
+        app.run(host='0.0.0.0')
 
 ---
 
