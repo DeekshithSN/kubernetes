@@ -4,9 +4,17 @@ metadata:
   name: conversion-script
 data:
   conversion.sh: |
-    curl https://geolocation-db.com/json/344ec440-6bfc-11eb-a0c0-b5dee9e67313 > /usr/share/prom/file
+    curl -s https://deekshithsn.free.beeceptor.com/appstatus > /usr/share/prom/file
+    # coverting it to time series from json which is key value 
     jq -r 'keys_unsorted[] as $k | "\($k) \(.[$k])"' /usr/share/prom/file > /usr/share/prom/metrics.txt
-
+    # prometheus only accepts 4 types of data which are Counter, Gauge, Histogram and Summary so converting true and false to 0' and 1's respectively    
+    sed -i 's/true/1/g' /usr/share/prom/metrics.txt
+    sed -i 's/false/0/g' /usr/share/prom/metrics.txt
+    # converting metrics which will understood by prometheus
+    sed -i 'h;:a;s/\n/&/1;t;G;ba' /usr/share/prom/metrics.txt
+    sed -i 's/.*/#&/;n' /usr/share/prom/metrics.txt
+    awk -F '1' '{for (i=1; i<NF; i++) {OFS=c%2?FS:"gauge"; printf "%s%s", $i, OFS; c++} print $NF}' /usr/share/prom/metrics.txt > /usr/share/prom/final_tem.txt
+    awk -F '1' '{for (i=1; i<NF; i++) {OFS=c%2?FS:"gauge"; printf "%s%s", $i, OFS; c++} print $NF}' /usr/share/prom/final_tem.txt >  /usr/share/prom/final.txt
 ---
 
 apiVersion: v1
