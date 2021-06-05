@@ -14,7 +14,7 @@ data:
     sed -i 'h;:a;s/\n/&/1;t;G;ba' /usr/share/prom/metrics.txt
     sed -i 's/.*/#&/;n' /usr/share/prom/metrics.txt
     awk -F '1' '{for (i=1; i<NF; i++) {OFS=c%2?FS:"gauge"; printf "%s%s", $i, OFS; c++} print $NF}' /usr/share/prom/metrics.txt > /usr/share/prom/final_tem.txt
-    awk -F '1' '{for (i=1; i<NF; i++) {OFS=c%2?FS:"gauge"; printf "%s%s", $i, OFS; c++} print $NF}' /usr/share/prom/final_tem.txt >  /usr/share/prom/final.txt
+    awk -F '0' '{for (i=1; i<NF; i++) {OFS=c%2?FS:"gauge"; printf "%s%s", $i, OFS; c++} print $NF}' /usr/share/prom/final_tem.txt >  /usr/share/prom/final.txt
 ---
 
 apiVersion: v1
