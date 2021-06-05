@@ -44,6 +44,7 @@ metadata:
   labels:
     app: ambassador-app
 spec:
+  type: NodePort
   ports:
     - name: "http"
       targetPort: 5000
