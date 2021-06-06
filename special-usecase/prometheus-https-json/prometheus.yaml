@@ -27,7 +27,7 @@ data:
         - targets: ['localhost:9090']
       - job_name: 'healthstatus'
         static_configs:
-        - targets: ['ui:5000']
+        - targets: ['metrics-endpoint:5000']
 
 ---
 
