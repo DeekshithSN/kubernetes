@@ -40,9 +40,9 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ui
+  name: metrics-endpoint
   labels:
-    app: ambassador-app
+    app: metrics-app
 spec:
   type: NodePort
   ports:
@@ -50,16 +50,16 @@ spec:
       targetPort: 5000
       port: 5000
   selector:
-    app: ambassador-app
+    app: metrics-app
 
 ---
 
 apiVersion: v1
 kind: Pod
 metadata:
-  name: ambassador-pod
+  name: metrics-pod
   labels:
-    app: ambassador-app
+    app: metrics-app
 spec:
   volumes:
   - name: shared
