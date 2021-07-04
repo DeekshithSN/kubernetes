@@ -1,0 +1,47 @@
+  apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: "react-ui"
+    name: "ui"
+  spec:
+    ports:
+    - name: "http"
+      port: 8080
+      targetPort: 8080
+    selector:
+      app: "react-ui"
+    type: "NodePort"
+---
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: "react-ui"
+    labels:
+      app: react-ui
+  spec:
+    replicas: 3
+    selector:
+        matchLabels:
+          app: "react-ui"
+    template:
+      metadata:
+        labels:
+          app: react-ui
+      spec:
+        containers:
+          - name: "react-ui"
+            image: "deekshithsn/rotation"
+            imagePullPolicy: "IfNotPresent"
+            ports:
+              - containerPort: 8080
+            readinessProbe:
+              exec:
+                command:
+                - cat
+                - /app/health.txt
+              initialDelaySeconds: 5
+              periodSeconds: 5
+              successThreshold: 1
+              failureThreshold: 3
+              timeoutSeconds: 1
