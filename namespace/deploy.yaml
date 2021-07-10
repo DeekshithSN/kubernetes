@@ -22,4 +22,4 @@ spec:
     matchLabels:
       name: voting-app-pod
       app: demo-voting-app
-  replicas: 8
+  replicas: 2
