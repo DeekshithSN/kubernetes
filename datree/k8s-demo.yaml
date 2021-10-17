@@ -19,7 +19,7 @@ spec:
     app.kubernetes.io/instance: my-app
 ---
 apiVersion: apps/v1
-Kind: Deployment
+kind: Deployment
 metadata:
   name: my-app-myapp
   labels:
@@ -30,7 +30,7 @@ metadata:
 spec:
   replicas: 2
   selector:
-    matchLabels:
+    matchlabels:
       app.kubernetes.io/name: myapp
       app.kubernetes.io/instance: my-app
   template:
@@ -42,8 +42,8 @@ spec:
       imagePullSecrets:
         - name: registry-secret
       containers:
-        - name: myapp
-          image: IMAGE_NAME:IMAGE_TAG
+      - name: myapp
+          image: tomcat:latest
           command: ["/bin/sh"]
           args: ["-c","sh /usr/local/tomcat/bin/startup.sh;while true; do echo hello; sleep 10;done"]
           imagePullPolicy: IfNotPresent
