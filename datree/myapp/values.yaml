@@ -5,10 +5,10 @@
 replicaCount: 2
 
 image:
-  repository: IMAGE_NAME
+  repository: tomcat
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: IMAGE_TAG
+  tag: latest
 
 service:
   type: NodePort
