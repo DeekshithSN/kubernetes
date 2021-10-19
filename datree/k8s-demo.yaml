@@ -30,7 +30,7 @@ metadata:
 spec:
   replicas: 2
   selector:
-    matchLabels:
+    matchlabels:
       app.kubernetes.io/name: myapp
       app.kubernetes.io/instance: my-app
   template:
@@ -42,7 +42,7 @@ spec:
       imagePullSecrets:
         - name: registry-secret
       containers:
-        - name: myapp
+      - name: myapp
           image: tomcat:1.21
           command: ["/bin/sh"]
           args: ["-c","sh /usr/local/tomcat/bin/startup.sh;while true; do echo hello; sleep 10;done"]
@@ -60,15 +60,15 @@ spec:
             successThreshold: 1
             failureThreshold: 3
             timeoutSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-            initialDelaySeconds: 60
-            periodSeconds: 5
-            successThreshold: 1
-            failureThreshold: 3
-            timeoutSeconds: 10
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          #   initialDelaySeconds: 60
+          #   periodSeconds: 5
+          #   successThreshold: 1
+          #   failureThreshold: 3
+          #   timeoutSeconds: 10
           resources:
             requests:
               memory: 0.25Gi
