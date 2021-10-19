@@ -42,7 +42,7 @@ spec:
       imagePullSecrets:
         - name: registry-secret
       containers:
-        - name: myapp
+      - name: myapp
           image: tomcat:latest
           command: ["/bin/sh"]
           args: ["-c","sh /usr/local/tomcat/bin/startup.sh;while true; do echo hello; sleep 10;done"]
