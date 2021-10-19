@@ -30,7 +30,7 @@ metadata:
 spec:
   replicas: 2
   selector:
-    matchlabels:
+    matchLabels:
       app.kubernetes.io/name: myapp
       app.kubernetes.io/instance: my-app
   template:
@@ -43,7 +43,7 @@ spec:
         - name: registry-secret
       containers:
       - name: myapp
-          image: tomcat:1.21
+          image: tomcat:latest
           command: ["/bin/sh"]
           args: ["-c","sh /usr/local/tomcat/bin/startup.sh;while true; do echo hello; sleep 10;done"]
           imagePullPolicy: IfNotPresent
