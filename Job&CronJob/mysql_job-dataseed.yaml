@@ -9,12 +9,12 @@ spec:
    spec:
      containers:
      - name: my-sql-seed
-       image: quimcalpe/mysql-wget                  
+       image: jlsrly/mysql-git                  
        command:
          - 'bash'
          - '-c'
          - |
-           wget -O /tmp/dump.sql https://raw.githubusercontent.com/DeekshithSN/kubernetes/master/Job%26CronJob/mysql.sql
-           mysql -h mysql -u root -padmin -e 'CREATE DATABASE IF NOT EXISTS test';
-           mysql -h mysql -u root -padmin test < /tmp/dump.sql
+           git clone https://github.com/DeekshithSN/kubernetes.git
+           mysql -h mysql -u root -padmin -e 'CREATE DATABASE IF NOT EXISTS test1';
+           mysql -h mysql -u root -padmin test < kubernetes/datadump/mysql.sql
      restartPolicy: OnFailure   
