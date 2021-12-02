@@ -1,14 +1,20 @@
 apiVersion: batch/v1   
 kind: Job                    
 metadata:
- name: job-test
+ name: my-sql-dump
 spec:                       
  template:
    metadata:
-     name: job-test
+     name: my-sql-dump
    spec:
      containers:
-     - name: job
-       image: busybox                  
-       command: ["echo", "job-test"]
+     - name: my-sql-seed
+       image: quimcalpe/mysql-wget                  
+       command:
+         - 'bash'
+         - '-c'
+         - |
+           wget -O /tmp/dump.sql https://raw.githubusercontent.com/DeekshithSN/kubernetes/master/Job%26CronJob/mysql.sql
+           mysql -h mysql -u root -padmin -e 'CREATE DATABASE IF NOT EXISTS test';
+           mysql -h mysql -u root -padmin test < /tmp/dump.sql
      restartPolicy: OnFailure   

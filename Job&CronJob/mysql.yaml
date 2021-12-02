@@ -29,8 +29,12 @@ spec:
           name: mysql
           env:
             # Use secret in real usage
-            - name: MYSQL_ALLOW_EMPTY_PASSWORD
-              value: "1"
+            - name: MYSQL_USER
+              value: deekshithsn
+            - name: MYSQL_PASSWORD
+              value: password
+            - name: MYSQL_ROOT_PASSWORD
+              value: admin
           ports:
             - containerPort: 3306
               name: mysql
