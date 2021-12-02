@@ -1,0 +1,14 @@
+apiVersion: batch/v1   
+kind: Job                    
+metadata:
+ name: job-test
+spec:                       
+ template:
+   metadata:
+     name: job-test
+   spec:
+     containers:
+     - name: job
+       image: busybox                  
+       command: ["echo", "job-test"]
+     restartPolicy: OnFailure   
