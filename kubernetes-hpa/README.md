@@ -1,6 +1,7 @@
 ##  First we need to setup metric server, follow steps in below post
 
     https://stackoverflow.com/questions/54106725/docker-kubernetes-mac-autoscaler-unable-to-find-metrics
+    https://forum.linuxfoundation.org/discussion/comment/32209 
     
 ##  Run below commands to HPA
     
