@@ -12,3 +12,6 @@
     kubectl run -it --rm load-generator --image=busybox /bin/sh
 
     while true; do wget -q -O- http://php-apache.default.svc.cluster.local; done
+
+
+in 1.23 metric-server found at https://github.com/kubernetes-sigs/metrics-server
