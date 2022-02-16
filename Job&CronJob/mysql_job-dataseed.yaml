@@ -2,7 +2,8 @@ apiVersion: batch/v1
 kind: Job                    
 metadata:
  name: my-sql-dump
-spec:                       
+spec:
+ ttlSecondsAfterFinished: 10
  template:
    metadata:
      name: my-sql-dump
@@ -15,7 +16,7 @@ spec:
          - '-c'
          - |
            git clone https://github.com/DeekshithSN/kubernetes.git
-           mysql -h mysql -u root -padmin -e 'CREATE DATABASE IF NOT EXISTS test1';
+           mysql -h mysql -u root -padmin -e 'CREATE DATABASE IF NOT EXISTS test';
            mysql -h mysql -u root -padmin test < kubernetes/datadump/mysql.sql
-           sleep 3600
+           sleep 20
      restartPolicy: OnFailure   
