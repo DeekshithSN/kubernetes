@@ -1,3 +1,5 @@
+Read more for prom config https://grafana.com/docs/grafana-cloud/metrics-control-usage/control-prometheus-metrics-usage/usage-reduction/?src=grafana&mdm=rss#:~:text=A%20relabel_configs%20configuration%20allows%20you,Endpoints%20using%20a%20kubernetes_sd_configs%20parameter.
+
 ## Follow  below commands for creating prometheus pod and scrap the data from cluster 
 
  - Create a Namespace monitoring 
