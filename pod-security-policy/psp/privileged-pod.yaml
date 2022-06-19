@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: traffic-generator
+spec:
+  hostPID: true
+  containers:
+  - name: alpine
+    image: alpine
+    securityContext:
+      privileged: true
+    args:
+    - sleep
+    - "100000000"
