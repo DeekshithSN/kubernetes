@@ -1,0 +1,31 @@
+---
+hosts: kubernetes
+become: true
+vars: 
+  - nexus_machine_ip: 34.125.138.204
+  - nexus_docker_registry: 34.125.138.204:8085
+  - nexus_user_name: admin
+  - nexus_user_password: admin 
+tasks:
+  - name: update daemon json
+    template:
+      src: daemon.json
+      dest: /etc/docker/daemon.json
+  
+  - name: restart docker 
+    service:
+      name: docker 
+      state: restarted 
+
+  - name: docker login to private registry 
+    shell: docker login -u {{ nexus_user_name }} -p {{ nexus_user_password }} {{ nexus_machine_ip }}
+
+  - name: Create a directory if it does not exist
+    file:
+      path: /etc/docker/certs.d/{{ nexus_machine_ip }}
+      state: directory
+
+  - name: copy app.crt of nginx
+    template: 
+      src: app.crt
+      dest: /etc/docker/certs.d/{{ nexus_machine_ip }}/
