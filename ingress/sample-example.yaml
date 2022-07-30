@@ -70,7 +70,7 @@ spec:
     targetPort: 8080
     protocol: TCP  
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: myingress
@@ -79,10 +79,16 @@ spec:
     - http:
         paths:
         - path: /hello
+          pathType: Prefix
           backend:
-            serviceName: hello-svc
-            servicePort: 8080
+            service:
+              name: hello-svc
+              port: 
+                number: 8080
         - path: /hello-v2
+          pathType: Prefix
           backend:
-            serviceName: hello-v2-svc
-            servicePort: 8080
+            service:
+              name: hello-v2-svc
+              port: 
+                number: 8080
