@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kibana-logging
-  namespace: kube-system
+  namespace: elk
   labels:
     k8s-app: kibana-logging
     kubernetes.io/cluster-service: "true"
