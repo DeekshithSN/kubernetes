@@ -83,12 +83,12 @@ spec:
           backend:
             service:
               name: hello-svc
-              port: 
+              port:
                 number: 8080
         - path: /hello-v2
           pathType: Prefix
           backend:
             service:
               name: hello-v2-svc
-              port: 
+              port:
                 number: 8080
