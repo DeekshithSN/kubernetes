@@ -1,0 +1,1 @@
+eksctl utils associate-iam-oidc-provider --region=eu-central-1 --cluster=my-k8s-cluster --approve
