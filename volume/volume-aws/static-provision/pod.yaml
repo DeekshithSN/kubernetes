@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-ebs-pod
+spec:
+  containers:
+  - name: app
+    image: busybox
+    command: [ "sleep", "3600" ]
+    volumeMounts:
+    - mountPath: "/data"
+      name: ebs-volume
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: topology.kubernetes.io/zone
+            operator: In
+            values:
+            - us-east-1c
+  volumes:
+  - name: ebs-volume
+    persistentVolumeClaim:
+      claimName: static-ebs-pvc
