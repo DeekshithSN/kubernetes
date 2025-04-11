@@ -1,3 +1,5 @@
+For eks follow step 4 https://docs.aws.amazon.com/eks/latest/userguide/cni-network-policy-configure.html 
+
 ## Restricting incoming traffic to Pods
 
 First, run a web server application with label app=hello and expose it internally in the cluster:
