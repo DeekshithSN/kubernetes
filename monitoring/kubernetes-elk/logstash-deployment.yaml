@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: logstash-configmap
-  namespace: kube-system
+  namespace: elk
 data:
   logstash.yml: |
     http.host: "0.0.0.0"
