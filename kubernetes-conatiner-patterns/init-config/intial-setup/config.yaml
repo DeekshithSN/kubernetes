@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-proxy-config
+data:
+  config.yaml: |
+    sshUser: uiAdmin
+    sshkey: backend.key
+    url: ui.abc.com
+    port: 8080
+    events:
+      - name: "create"
+        type: "json"
+      - name: "update"
+        type: "json"
+      - name: "delete"
+        type: "text"

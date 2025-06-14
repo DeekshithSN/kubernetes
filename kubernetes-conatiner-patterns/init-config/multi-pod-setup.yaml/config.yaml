@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-proxy-config
+data:
+  url-update.sh: |
+      cp /app/config.yaml /etc/app/config.yaml
+      POD_NAME=$(hostname)
+      # Extract the ordinal number using regex
+      if [[ "$POD_NAME" =~ -([0-9]+)$ ]]; then
+        ORDINAL="${BASH_REMATCH[1]}"
+        app_proxy_number=$((ORDINAL + 1))
+        sed -i "s/INSTANCE_NUMBER/$app_proxy_number/" /etc/app/config.yaml
+      else
+        echo "Failed to extract ordinal from hostname: $POD_NAME"
+        exit 1
+      fi
+  config.yaml: |
+    sshUser: uiAdmin
+    sshkey: backend.key
+    url: ui-INSTANCE_NUMBER.abc.com
+    port: 8080
+    events:
+      - name: "create"
+        type: "json"
+      - name: "update"
+        type: "json"
+      - name: "delete"
+        type: "text"
